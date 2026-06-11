@@ -1,0 +1,63 @@
+{
+  "grid": {
+    "width": 5,
+    "height": 5
+  },
+  "warehouse": {
+    "x": 3,
+    "y": 2
+  },
+  "robot": {
+    "x": 1,
+    "y": 3
+  },
+  "flowers": {
+    "Rose": ["Red", "Pink", "White", "Yellow", "DarkRed"],
+    "Tulip": ["Red", "Yellow", "Purple", "Orange", "Green", "Mauve", "Violet"],
+    "Orchid": ["Purple", "White", "Pink", "LightPink"],
+    "GoliatRose": ["Gold", "LightPink", "Yellow"]
+  },
+  "pavilions": [
+    {
+      "id": "P1",
+      "type": "Rose",
+      "x": 2,
+      "y": 4,
+      "needs": {
+        "Red": 2,
+        "Pink": 1,
+        "White": 1
+      }
+    },
+    {
+      "id": "P2",
+      "type": "Tulip",
+      "x": 4,
+      "y": 3,
+      "needs": {
+        "Red": 3,
+        "Yellow": 1
+      }
+    },
+    {
+      "id": "P3",
+      "type": "Orchid",
+      "x": 4,
+      "y": 5,
+      "needs": {
+        "Purple": 2,
+        "Pink": 1
+      }
+    },
+    {
+      "id": "P4",
+      "type": "GoliatRose",
+      "x": 5,
+      "y": 2,
+      "needs": {
+        "Gold": 2,
+        "LightPink": 2
+      }
+    }
+  ]
+}
