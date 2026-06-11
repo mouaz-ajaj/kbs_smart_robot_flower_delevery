@@ -13,21 +13,10 @@ procedural A* loop in ``core/search.py``.
 
 from __future__ import annotations
 
-import itertools
-from copy import deepcopy
 from typing import Dict, List, Tuple
 
 from core.heuristics import heuristic
 from core.models import Action, Pavilion, Position, Problem, RejectedRecord, State
-from core.validators import (
-    can_unload_color_at_pavilion,
-    is_inside_grid,
-    is_over_max_load,
-    is_valid_load_pattern,
-    load_batch_is_needed,
-    validate_load_batch,
-    validate_move,
-)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

@@ -381,8 +381,8 @@ smart_flower_robot/
 ├── core/
 │   ├── models.py           # Dataclasses: Position, Pavilion, Problem, State, Action
 │   ├── parser.py           # JSON loading, validation, Problem construction
-│   ├── validators.py       # Pure validation predicates
-│   ├── actions.py          # Successor-state generation (moves, loads, unloads)
+│   ├── validators.py       # Pure validation predicates and compatibility wrappers
+│   ├── actions.py          # Compatibility wrappers for successor-state generation
 │   ├── heuristics.py       # Manhattan distance + admissible heuristic
 │   └── search.py           # A* algorithm + search tree generation + formatters
 │
@@ -403,7 +403,7 @@ smart_flower_robot/
 
 ## 🔑 Design Decisions
 
-1. **Rules delegate to functions**: Experta Rules call clean functions in `core/actions.py` and `core/validators.py` rather than embedding all logic in the rules themselves. This keeps the knowledge representation declarative while maintaining readable, testable code.
+1. **Experta as the Core Engine**: The `FlowerRobotEngine` in `expert/engine.py` is the **authoritative source** for all business logic (movement, loading, unloading, validation). The procedural files `core/actions.py` and `core/validators.py` now act as lightweight compatibility wrappers and pure helpers, meaning the expert system fully drives state expansion.
 
 2. **State signature for duplicate detection**: A state's identity is `(position, load, remaining_needs)` — the path taken doesn't matter for duplicate detection, only the current situation.
 

@@ -17,7 +17,7 @@ import heapq
 from collections import deque
 from typing import Dict, List, Optional, Set, Tuple
 
-from core.actions import StateCounter, generate_successors
+from core.actions import StateCounter
 from core.heuristics import heuristic
 from core.models import Problem, RejectedRecord, State
 from core.validators import is_goal_state, state_signature
@@ -40,129 +40,7 @@ class AStarResult:
         self.success: bool = False
 
 
-def a_star_search(
-    initial_state: State,
-    problem: Problem,
-    max_iterations: int = 200_000,
-) -> AStarResult:
-    """Run A* search starting from *initial_state*.
 
-    Parameters:
-        initial_state  : the starting state (id=0, g=0)
-        problem        : problem specification
-        max_iterations : safety limit to prevent infinite loops
-
-    Returns:
-        AStarResult with solution path, all states, and rejected states.
-    """
-    result = AStarResult()
-    counter = StateCounter(start=1)
-
-    # Compute heuristic for the initial state
-    initial_state.h = heuristic(
-        initial_state.robot_pos,
-        initial_state.load,
-        initial_state.remaining_needs,
-        problem,
-    )
-    initial_state.f = initial_state.g + initial_state.h
-
-    # Open list: min-heap of (f, state_id, State)
-    open_list: list = []
-    heapq.heappush(open_list, (initial_state.f, initial_state.id, initial_state))
-
-    # Closed set: signatures of already-expanded states
-    visited: Set[tuple] = set()
-
-    result.all_states.append(initial_state)
-
-    while open_list and result.iterations < max_iterations:
-        result.iterations += 1
-
-        _f, _sid, current = heapq.heappop(open_list)
-
-        sig = state_signature(current)
-        if sig in visited:
-            continue
-        visited.add(sig)
-        result.visited_count += 1
-
-        # ── Goal test ─────────────────────────────────────────────────
-        if is_goal_state(current):
-            result.solution = current
-            result.success = True
-            return result
-
-        # ── Expand ────────────────────────────────────────────────────
-        children, rejected = generate_successors(current, problem, counter)
-        result.rejected.extend(rejected)
-
-        for child in children:
-            child_sig = state_signature(child)
-            if child_sig not in visited:
-                heapq.heappush(open_list, (child.f, child.id, child))
-                result.all_states.append(child)
-                result.generated_count += 1
-
-    # If we exit the loop without finding a solution
-    return result
-
-
-def dfs_search(
-    initial_state: State,
-    problem: Problem,
-    max_iterations: int = 200_000,
-    max_depth: int | None = None,
-) -> AStarResult:
-    """Procedural DFS kept for comparison/debugging.
-    The final UI and CLI use expert.engine.engine_dfs_search.
-    """
-    result = AStarResult()
-    counter = StateCounter(start=1)
-
-    initial_state.h = heuristic(
-        initial_state.robot_pos,
-        initial_state.load,
-        initial_state.remaining_needs,
-        problem,
-    )
-    initial_state.f = initial_state.g + initial_state.h
-
-    stack = [(initial_state, 0)]
-    visited: Set[tuple] = set()
-
-    result.all_states.append(initial_state)
-
-    while stack and result.iterations < max_iterations:
-        result.iterations += 1
-
-        current, depth = stack.pop()
-
-        sig = state_signature(current)
-        if sig in visited:
-            continue
-        visited.add(sig)
-        result.visited_count += 1
-
-        if is_goal_state(current):
-            result.solution = current
-            result.success = True
-            return result
-
-        if max_depth is not None and depth >= max_depth:
-            continue
-
-        children, rejected = generate_successors(current, problem, counter)
-        result.rejected.extend(rejected)
-
-        for child in reversed(children):
-            child_sig = state_signature(child)
-            if child_sig not in visited:
-                stack.append((child, depth + 1))
-                result.all_states.append(child)
-                result.generated_count += 1
-
-    return result
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  Search-tree generation  (limited-depth BFS for visualisation)
@@ -190,6 +68,8 @@ def generate_search_tree(
     **visualising** the first few levels of the search tree.
     """
     counter = StateCounter(start=1)
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
 
     # Compute h for initial state
     initial_state.h = heuristic(
@@ -215,7 +95,7 @@ def generate_search_tree(
         if depth >= max_depth:
             continue
 
-        children, rejected = generate_successors(current, problem, counter)
+        children, rejected, _ = engine.expand_state(current, problem, counter)
         tree.rejected.extend(rejected)
         tree.children[current.id] = []
 

@@ -27,7 +27,7 @@ implementation readable and maintainable.
 
 from __future__ import annotations
 
-from typing import List
+from typing import Dict, List, Tuple, Set, Optional
 import collections
 import collections.abc
 
@@ -37,46 +37,24 @@ if not hasattr(collections, "Mapping"):
 
 from experta import MATCH, TEST, KnowledgeEngine, Rule
 
-from core.actions import (
-    StateCounter,
-    generate_loads,
-    generate_move_down,
-    generate_move_left,
-    generate_move_right,
-    generate_move_up,
-    generate_unloads,
-)
-from core.models import Problem, RejectedRecord, State
+from core.actions import StateCounter
+from core.heuristics import heuristic as compute_heuristic
+from core.models import Action, Pavilion, Position, Problem, RejectedRecord, State
 from core.validators import is_goal_state
 from expert.facts import (
     CurrentStateFact,
     GeneratedStateFact,
     GoalFact,
     GridFact,
-    PavilionFact,
-    RobotFact,
-    ViolationFact,
-    WarehouseFact,
-)
-
-
-from core.actions import StateCounter
-from core.models import Position, Pavilion, Action, Problem, RejectedRecord, State
-from core.heuristics import heuristic as compute_heuristic
-from expert.facts import (
-    CurrentStateFact,
-    GeneratedStateFact,
-    GoalFact,
-    GridFact,
-    PavilionFact,
-    RobotFact,
-    ViolationFact,
-    WarehouseFact,
-    MoveCandidateFact,
     LoadCandidateFact,
-    ValidLoadFact,
+    MoveCandidateFact,
+    PavilionFact,
+    RobotFact,
     UnloadCandidateFact,
+    ValidLoadFact,
     ValidUnloadFact,
+    ViolationFact,
+    WarehouseFact,
 )
 
 
@@ -547,9 +525,7 @@ class FlowerRobotEngine(KnowledgeEngine):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 import heapq
-from typing import Optional, Set
 
-from core.heuristics import heuristic as compute_heuristic
 from core.search import AStarResult
 from core.validators import state_signature
 
