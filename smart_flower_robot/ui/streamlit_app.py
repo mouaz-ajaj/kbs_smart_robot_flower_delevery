@@ -32,7 +32,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from core.actions import StateCounter, generate_loads, generate_unloads
+from core.state_utils import StateCounter, is_goal_state
 from core.heuristics import heuristic
 from core.models import Action, Position, Problem, State
 from core.parser import build_initial_state, load_json, parse_problem
@@ -42,11 +42,6 @@ from core.search import (
     format_solution,
     format_state_line,
     generate_search_tree,
-)
-from core.validators import (
-    can_unload_at_pavilion,
-    is_goal_state,
-    is_inside_grid,
 )
 from expert.engine import engine_a_star_search, engine_dfs_search
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -508,8 +503,11 @@ def main():
         # Load button (only at warehouse)
         if state.robot_pos == problem.warehouse:
             st.markdown("##### 📦 Load at Warehouse")
-            counter = st.session_state.manual_counter
-            load_children, load_rejected = generate_loads(state, problem, counter)
+            from expert.engine import FlowerRobotEngine
+            engine = FlowerRobotEngine()
+            children, rejected, _ = engine.expand_state(state, problem, counter)
+            load_children = [c for c in children if c.action.startswith("Load")]
+            load_rejected = [r for r in rejected if r.action.startswith("Load")]
 
             if load_children:
                 options = {child.action: child for child in load_children}
@@ -535,7 +533,11 @@ def main():
         if pav_here:
             st.markdown(f"##### 🌺 Unload at {pav_here.id} ({pav_here.type})")
             counter = st.session_state.manual_counter
-            unload_children, unload_rejected = generate_unloads(state, problem, counter)
+            from expert.engine import FlowerRobotEngine
+            engine = FlowerRobotEngine()
+            children, rejected, _ = engine.expand_state(state, problem, counter)
+            unload_children = [c for c in children if c.action.startswith("Unload")]
+            unload_rejected = [r for r in rejected if r.action.startswith("Unload")]
             if unload_children:
                 options_u = {child.action: child for child in unload_children}
                 choice_u = st.selectbox("Choose unload:", list(options_u.keys()))

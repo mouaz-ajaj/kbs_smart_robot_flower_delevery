@@ -17,10 +17,9 @@ import heapq
 from collections import deque
 from typing import Dict, List, Optional, Set, Tuple
 
-from core.actions import StateCounter
+from core.state_utils import StateCounter, is_goal_state, state_signature
 from core.heuristics import heuristic
 from core.models import Problem, RejectedRecord, State
-from core.validators import is_goal_state, state_signature
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

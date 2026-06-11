@@ -13,16 +13,10 @@ The engine contains Rules that represent all *knowledge-based decisions*:
 
 Design philosophy
 -----------------
-Rules do NOT contain raw procedural logic.  Instead, each Rule:
-    1. Pattern-matches on Facts (RobotFact, GridFact, WarehouseFact, etc.)
-       to decide *when* it should fire.
-    2. Delegates to clean functions in ``core/actions.py`` and
-       ``core/validators.py`` for the *actual work*.
-    3. Asserts new Facts (GeneratedStateFact, ViolationFact, GoalFact)
-       to communicate results back to the engine.
-
-This keeps the knowledge representation declarative while keeping the
-implementation readable and maintainable.
+Experta rules are now the authoritative source for movement, loading, unloading,
+violation handling, generated states, and goal detection. Helper methods inside
+the engine may perform mechanical work, but business decisions are represented
+through Experta facts and rules.
 """
 
 from __future__ import annotations
@@ -37,10 +31,9 @@ if not hasattr(collections, "Mapping"):
 
 from experta import MATCH, TEST, KnowledgeEngine, Rule
 
-from core.actions import StateCounter
 from core.heuristics import heuristic as compute_heuristic
 from core.models import Action, Pavilion, Position, Problem, RejectedRecord, State
-from core.validators import is_goal_state
+from core.state_utils import StateCounter, is_goal_state
 from expert.facts import (
     CurrentStateFact,
     GeneratedStateFact,
@@ -527,7 +520,7 @@ class FlowerRobotEngine(KnowledgeEngine):
 import heapq
 
 from core.search import AStarResult
-from core.validators import state_signature
+from core.state_utils import state_signature
 
 
 def engine_a_star_search(

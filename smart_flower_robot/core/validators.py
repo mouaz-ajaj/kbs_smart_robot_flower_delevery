@@ -1,11 +1,9 @@
 """
 core/validators.py
 ==================
-Pure validation functions used by both the expert-system rules and
-the procedural search code.
-
-Every function is a *predicate* – it returns True / False (or a
-descriptive string for rejection reasons) without side effects.
+[DEPRECATED] This module is kept only for backward compatibility.
+The authoritative action validation logic now lives completely
+in `expert/engine.py`. This file will be deleted in a later phase.
 """
 
 from __future__ import annotations
@@ -152,30 +150,7 @@ def can_unload_at_pavilion(
     return False
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Goal check
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def is_goal_state(state: State) -> bool:
-    """Return True when:
-        1. All pavilion needs are fully satisfied (remaining == 0).
-        2. The robot carries no bouquets.
-    """
-    if state.load_total() > 0:
-        return False
-    for qty in state.remaining_needs.values():
-        if qty > 0:
-            return False
-    return True
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  State signature  (convenience wrapper)
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def state_signature(state: State) -> tuple:
-    """Delegates to State.signature() for a hashable, comparable key."""
-    return state.signature()
+# Removed is_goal_state and state_signature (moved to core/state_utils.py)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -198,7 +173,7 @@ def validate_load_batch(
 ) -> Optional[str]:
     """[DEPRECATED/WRAPPER] Return a rejection reason string using FlowerRobotEngine."""
     from expert.engine import FlowerRobotEngine
-    from core.actions import StateCounter
+    from core.state_utils import StateCounter
     engine = FlowerRobotEngine()
     children, rejected, _ = engine.expand_state(state, problem, StateCounter())
     action_desc = f"Load {engine._format_load_batch(load_batch)}"

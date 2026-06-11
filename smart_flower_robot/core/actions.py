@@ -1,14 +1,9 @@
 """
 core/actions.py
 ===============
-Successor-state generation for the Smart Flower Robot.
-
-Each ``generate_*`` function takes the current State (and Problem) and returns
-a list of new State objects (or load-dicts / unload-specs) that represent
-valid transitions.
-
-This module is the *workhorse* called by the Experta rules and by the
-procedural A* loop in ``core/search.py``.
+[DEPRECATED] This module is kept only for backward compatibility.
+The authoritative action generation and validation logic now lives completely
+in `expert/engine.py`. This file will be deleted in a later phase.
 """
 
 from __future__ import annotations
@@ -19,20 +14,7 @@ from core.heuristics import heuristic
 from core.models import Action, Pavilion, Position, Problem, RejectedRecord, State
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  State-ID counter
-# ═══════════════════════════════════════════════════════════════════════════════
-
-class StateCounter:
-    """Thread-safe-ish auto-incrementing counter for state IDs."""
-
-    def __init__(self, start: int = 1):
-        self._value = start
-
-    def next(self) -> int:
-        val = self._value
-        self._value += 1
-        return val
+from core.state_utils import StateCounter
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
