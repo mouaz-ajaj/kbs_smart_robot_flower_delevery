@@ -382,8 +382,6 @@ smart_flower_robot/
 │   ├── models.py           # Dataclasses: Position, Pavilion, Problem, State, Action
 │   ├── parser.py           # JSON loading, validation, Problem construction
 │   ├── state_utils.py      # Generic state utilities (StateCounter, is_goal_state, state_signature)
-│   ├── validators.py       # [DEPRECATED] Compatibility wrappers
-│   ├── actions.py          # [DEPRECATED] Compatibility wrappers
 │   ├── heuristics.py       # Manhattan distance + admissible heuristic
 │   └── search.py           # A* algorithm + search tree generation + formatters
 │
@@ -404,7 +402,7 @@ smart_flower_robot/
 
 ## 🔑 Design Decisions
 
-1. **Experta as the Core Engine**: The `FlowerRobotEngine` in `expert/engine.py` is the **authoritative source** for all business logic (movement, loading, unloading, validation). The old procedural files `core/actions.py` and `core/validators.py` have been deprecated entirely. Generic logic has been moved to `core/state_utils.py`.
+1. **Experta as the Core Engine**: The `FlowerRobotEngine` in `expert/engine.py` is the **authoritative source** for all business logic (movement, loading, unloading, validation). The old procedural files `core/actions.py` and `core/validators.py` have been completely removed. Generic neutral state logic lives in `core/state_utils.py`.
 
 2. **State signature for duplicate detection**: A state's identity is `(position, load, remaining_needs)` — the path taken doesn't matter for duplicate detection, only the current situation.
 

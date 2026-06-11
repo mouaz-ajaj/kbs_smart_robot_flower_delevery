@@ -1,1 +1,1 @@
-# Core module: models, parser, validators, actions, heuristics, search
+# Core module: models, parser, state_utils, heuristics, search

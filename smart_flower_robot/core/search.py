@@ -1,23 +1,21 @@
 """
 core/search.py
 ==============
-Search algorithms for the Smart Flower Robot problem.
+Search utilities and tree structures for the Smart Flower Robot problem.
 
 Provides:
-    1. **A* Search** – finds the optimal solution using f(n) = g(n) + h(n).
-    2. **Search-tree generation** – limited-depth BFS expansion for
+    1. **Search-tree generation** – limited-depth BFS expansion for
        visualising the state space.
-    3. **Tree formatting** – pretty-prints the search tree in a textual
+    2. **Tree formatting** – pretty-prints the search tree in a textual
        hierarchical format.
 """
 
 from __future__ import annotations
 
-import heapq
 from collections import deque
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional
 
-from core.state_utils import StateCounter, is_goal_state, state_signature
+from core.state_utils import StateCounter, state_signature
 from core.heuristics import heuristic
 from core.models import Problem, RejectedRecord, State
 

@@ -503,6 +503,7 @@ def main():
         # Load button (only at warehouse)
         if state.robot_pos == problem.warehouse:
             st.markdown("##### 📦 Load at Warehouse")
+            counter = st.session_state.manual_counter
             from expert.engine import FlowerRobotEngine
             engine = FlowerRobotEngine()
             children, rejected, _ = engine.expand_state(state, problem, counter)
