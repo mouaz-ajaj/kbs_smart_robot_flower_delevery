@@ -196,23 +196,14 @@ def validate_load_batch(
     load_batch: Dict[Tuple[str, str], int],
     problem: Problem,
 ) -> Optional[str]:
-    """Return a rejection reason string, or None if the load is valid."""
-    if state.robot_pos != problem.warehouse:
-        return "Robot is not at the warehouse."
-
-    for qty in load_batch.values():
-        if qty <= 0:
-            return "Load quantities must be positive."
-
-    combined_load = merge_loads(state.load, load_batch)
-
-    if not is_valid_load_pattern(combined_load):
-        return "Total robot load violates pattern constraint (must be same-color or same-type)."
-
-    if is_over_max_load(state.load, load_batch, problem):
-        return "Load would exceed max_load capacity."
-
-    if not load_batch_is_needed(load_batch, state.remaining_needs, problem):
-        return "Load contains bouquets not needed by any pavilion."
-
+    """[DEPRECATED/WRAPPER] Return a rejection reason string using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    from core.actions import StateCounter
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, StateCounter())
+    action_desc = f"Load {engine._format_load_batch(load_batch)}"
+    for rej in rejected:
+        if rej.action == action_desc:
+            return rej.reason
     return None
+

@@ -4,29 +4,29 @@ Total cost: 29
 
 Solution path:
 
-  1. Move Right -> robot at (2,3)
-  2. Move Right -> robot at (3,3)
-  3. Move Up -> robot at (3,2)
-  4. Load [Tulip Red x3, Tulip Yellow x1]
-  5. Move Down -> robot at (3,3)
-  6. Move Right -> robot at (4,3)
-  7. Unload at P2 [Tulip Red x3, Tulip Yellow x1]
-  8. Move Up -> robot at (4,2)
+  1. Move Up -> robot at (1,2)
+  2. Move Right -> robot at (2,2)
+  3. Move Right -> robot at (3,2)
+  4. Load [GoliatRose Gold x2, GoliatRose LightPink x2]
+  5. Move Right -> robot at (4,2)
+  6. Move Right -> robot at (5,2)
+  7. Unload at P4 [GoliatRose Gold x2, GoliatRose LightPink x2]
+  8. Move Left -> robot at (4,2)
   9. Move Left -> robot at (3,2)
-  10. Load [Rose Pink x1, Rose Red x2, Rose White x1]
+  10. Load [Tulip Red x3, Tulip Yellow x1]
   11. Move Down -> robot at (3,3)
-  12. Move Down -> robot at (3,4)
-  13. Move Left -> robot at (2,4)
-  14. Unload at P1 [Rose Red x2, Rose Pink x1, Rose White x1]
-  15. Move Right -> robot at (3,4)
-  16. Move Up -> robot at (3,3)
-  17. Move Up -> robot at (3,2)
-  18. Load [GoliatRose Gold x2, GoliatRose LightPink x2]
-  19. Move Right -> robot at (4,2)
-  20. Move Right -> robot at (5,2)
-  21. Unload at P4 [GoliatRose Gold x2, GoliatRose LightPink x2]
-  22. Move Left -> robot at (4,2)
-  23. Move Left -> robot at (3,2)
+  12. Move Right -> robot at (4,3)
+  13. Unload at P2 [Tulip Red x3, Tulip Yellow x1]
+  14. Move Up -> robot at (4,2)
+  15. Move Left -> robot at (3,2)
+  16. Load [Rose Pink x1, Rose Red x2, Rose White x1]
+  17. Move Down -> robot at (3,3)
+  18. Move Down -> robot at (3,4)
+  19. Move Left -> robot at (2,4)
+  20. Unload at P1 [Rose Red x2, Rose Pink x1, Rose White x1]
+  21. Move Up -> robot at (2,3)
+  22. Move Up -> robot at (2,2)
+  23. Move Right -> robot at (3,2)
   24. Load [Orchid Pink x1, Orchid Purple x2]
   25. Move Down -> robot at (3,3)
   26. Move Down -> robot at (3,4)
@@ -36,467 +36,53 @@ Solution path:
 
 Rejected Actions:
 
-  Parent State 0 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 3 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 70 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 85 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 157 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 86 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 87 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 177 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 178 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 474 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 477 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 10 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 10 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 17 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 35 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 39 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 47 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 51 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 58 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 59 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 66 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 67 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 71 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 77 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 82 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 88 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 89 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 89 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 92 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 95 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 96 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 96 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 99 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 100 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 108 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 123 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 138 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 142 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 146 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 154 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 158 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 165 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 166 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 173 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 174 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 179 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 180 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 180 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 186 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 191 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 478 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 479 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1042 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1066 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1090 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1154 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1177 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1200 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1349 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1353 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1384 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 176 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 196 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 200 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 204 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 208 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 212 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 217 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 221 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 225 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 226 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 226 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 229 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 230 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 230 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 234 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 238 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 242 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 246 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 250 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 253 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 254 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 254 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 257 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 258 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 258 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 262 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 267 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 271 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 280 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 281 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 287 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 288 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 295 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 296 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 303 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 304 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 307 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 308 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 320 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 321 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 328 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 329 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 335 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 336 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 343 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 344 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 351 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 352 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 356 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 362 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 369 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 372 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 377 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 382 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 399 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 401 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 408 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 409 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 416 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 419 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 424 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 429 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 443 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 449 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 452 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 455 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 461 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 464 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 469 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 472 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 475 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 480 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 481 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 481 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 484 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 484 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 516 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 523 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 524 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 528 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 674 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 681 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 682 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 686 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1138 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1146 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1161 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1169 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1184 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1192 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1267 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1268 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1283 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1284 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1299 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1300 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1385 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1386 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1391 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1392 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1609 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1669 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1718 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1766 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1834 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1848 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1870 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1884 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1984 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1991 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1998 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2005 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2012 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2019 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2312 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2320 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2328 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2377 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2384 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2391 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2429 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 2440 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 486 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 486 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 489 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 495 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 500 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 512 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 532 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 533 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 540 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 544 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 547 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 551 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 558 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 562 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 563 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 570 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 572 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 572 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 577 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 584 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 586 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 586 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 598 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 599 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 605 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 606 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 612 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 617 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 618 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 624 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 630 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 630 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 635 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 642 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 655 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 659 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 663 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 670 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 695 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 699 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 706 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 710 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 713 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 717 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 720 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 724 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 732 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 739 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 741 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 741 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 746 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 753 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 755 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 755 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 760 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 765 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 766 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 772 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 773 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 781 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 782 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 785 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 786 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 789 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 790 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 793 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 794 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 795 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 802 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 803 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 810 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 811 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 818 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 819 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 826 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 829 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 833 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 835 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 838 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 842 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 845 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 849 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 852 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 856 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 859 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 860 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 863 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 867 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 870 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 874 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 877 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 881 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 884 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 885 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 888 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 892 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 895 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 899 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 902 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 906 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 909 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 911 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 912 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 912 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 915 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 916 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 916 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 920 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 924 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 931 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 932 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 936 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 940 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 947 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 948 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 952 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 956 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 963 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 964 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 967 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 970 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 972 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 975 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 977 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 980 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 982 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 985 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 992 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 993 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1000 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1001 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1002 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1009 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1010 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1017 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1018 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1025 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1032 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1033 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1040 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1041 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1047 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1056 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1057 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1064 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1065 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1071 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1080 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1081 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1088 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1089 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1095 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1098 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1105 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1106 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1113 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1120 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1121 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1128 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1129 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1136 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1137 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1145 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1153 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1156 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1158 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1168 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1176 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1179 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1181 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1191 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1199 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1202 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1204 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1211 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1214 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1219 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1222 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1234 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1244 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1254 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1257 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1260 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1262 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1265 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1266 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1269 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1269 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1273 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1276 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1278 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1281 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1282 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1285 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1285 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1289 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1292 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1294 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1297 | Action: Move Left | Reason: Robot at x=1. Would exit grid.
-  Parent State 1298 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1301 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 1301 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1306 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1312 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1316 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1320 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1324 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1330 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1337 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1338 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1345 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1346 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1350 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1354 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1361 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1362 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1369 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1370 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1376 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1381 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1387 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1388 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1388 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1390 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1393 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1394 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1394 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1400 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1405 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1409 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1412 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1413 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1413 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1416 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 1417 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 1421 | Action: Move Up | Reason: Robot at y=1. Would exit grid.
-  Parent State 2186 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2187 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2211 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2212 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2217 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2218 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2223 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2224 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2229 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2230 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2235 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2236 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2241 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2242 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2247 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2248 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2411 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2412 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2417 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2418 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2423 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2424 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 2441 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 2442 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 3273 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3290 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3307 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3650 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3654 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3658 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3662 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3763 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3771 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3779 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3834 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3846 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3853 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3860 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 3912 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 4013 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 4030 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 4034 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
-  Parent State 4045 | Action: Move Down | Reason: Robot at y=5, grid height=5. Would exit grid.
-  Parent State 4059 | Action: Move Right | Reason: Robot at x=5, grid width=5. Would exit grid.
+  Parent State 0 | Action: Move Left | Reason: Position (0,3) is outside the grid.
+  Parent State 2 | Action: Move Left | Reason: Position (0,2) is outside the grid.
+  Parent State 28 | Action: Load [Orchid Pink x1] | Reason: Total robot load violates pattern constraint (must be same-color or same-type).
+  Parent State 28 | Action: Load [Rose White x1] | Reason: Total robot load violates pattern constraint (must be same-color or same-type).
+  Parent State 28 | Action: Load [Rose Pink x1] | Reason: Total robot load violates pattern constraint (must be same-color or same-type).
+  Parent State 56 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 129 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 132 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 130 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 131 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 310 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 313 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 311 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 312 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 75 | Action: Move Right | Reason: Position (6,2) is outside the grid.
+  Parent State 123 | Action: Move Up | Reason: Position (3,0) is outside the grid.
+  Parent State 127 | Action: Move Up | Reason: Position (4,0) is outside the grid.
+  Parent State 133 | Action: Move Right | Reason: Position (6,3) is outside the grid.
+  Parent State 134 | Action: Move Up | Reason: Position (5,0) is outside the grid.
+  Parent State 134 | Action: Move Right | Reason: Position (6,1) is outside the grid.
+  Parent State 136 | Action: Move Right | Reason: Position (6,3) is outside the grid.
+  Parent State 137 | Action: Move Up | Reason: Position (5,0) is outside the grid.
+  Parent State 137 | Action: Move Right | Reason: Position (6,1) is outside the grid.
+  Parent State 140 | Action: Move Up | Reason: Position (4,0) is outside the grid.
+  Parent State 156 | Action: Move Up | Reason: Position (3,0) is outside the grid.
+  Parent State 160 | Action: Move Up | Reason: Position (3,0) is outside the grid.
+  Parent State 168 | Action: Move Up | Reason: Position (2,0) is outside the grid.
+  Parent State 169 | Action: Move Left | Reason: Position (0,2) is outside the grid.
+  Parent State 171 | Action: Move Down | Reason: Position (3,6) is outside the grid.
+  Parent State 177 | Action: Move Left | Reason: Position (0,3) is outside the grid.
+  Parent State 183 | Action: Move Down | Reason: Position (2,6) is outside the grid.
+  Parent State 185 | Action: Move Left | Reason: Position (0,4) is outside the grid.
+  Parent State 187 | Action: Move Down | Reason: Position (2,6) is outside the grid.
+  Parent State 189 | Action: Move Left | Reason: Position (0,4) is outside the grid.
+  Parent State 193 | Action: Move Left | Reason: Position (0,3) is outside the grid.
+  Parent State 195 | Action: Move Down | Reason: Position (3,6) is outside the grid.
+  Parent State 200 | Action: Move Up | Reason: Position (2,0) is outside the grid.
+  Parent State 201 | Action: Move Left | Reason: Position (0,2) is outside the grid.
+  Parent State 212 | Action: Move Up | Reason: Position (3,0) is outside the grid.
+  Parent State 317 | Action: Move Right | Reason: Position (6,3) is outside the grid.
+  Parent State 318 | Action: Move Up | Reason: Position (5,0) is outside the grid.
+  Parent State 318 | Action: Move Right | Reason: Position (6,1) is outside the grid.
+  Parent State 321 | Action: Move Up | Reason: Position (4,0) is outside the grid.
+  Parent State 509 | Action: Load [Orchid Pink x1] | Reason: Total robot load violates pattern constraint (must be same-color or same-type).
+  Parent State 509 | Action: Load [Rose White x1] | Reason: Total robot load violates pattern constraint (must be same-color or same-type).
+  Parent State 509 | Action: Load [Rose Pink x1] | Reason: Total robot load violates pattern constraint (must be same-color or same-type).
+  Parent State 576 | Action: Load [Orchid Pink x1] | Reason: Total robot load violates pattern constraint (must be same-color or same-type).
+  Parent State 577 | Action: Load [Orchid Pink x1] | Reason: Total robot load violates pattern constraint (must be same-color or same-type).
+  Parent State 768 | Action: Move Down | Reason: Position (3,6) is outside the grid.
+  Parent State 778 | Action: Move Down | Reason: Position (4,6) is outside the grid.

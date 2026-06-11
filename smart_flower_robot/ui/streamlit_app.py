@@ -234,27 +234,20 @@ def _manual_move(dx: int, dy: int, name: str):
     state = st.session_state.current_state
     problem = st.session_state.problem
     counter = st.session_state.manual_counter
-    new_pos = Position(state.robot_pos.x + dx, state.robot_pos.y + dy)
 
-    if not is_inside_grid(new_pos, problem):
-        st.session_state.manual_log.append(f"❌ {name}: outside grid")
-        return
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
 
-    new_state = State(
-        id=counter.next(),
-        robot_pos=new_pos,
-        load=dict(state.load),
-        remaining_needs=dict(state.remaining_needs),
-        g=state.g + 1,
-        h=0, f=0,
-        path=state.path + [Action(name, f"{name} -> robot at {new_pos}")],
-        parent_id=state.id,
-        action=f"{name} -> robot at {new_pos}",
-    )
-    new_state.h = heuristic(new_pos, new_state.load, new_state.remaining_needs, problem)
-    new_state.f = new_state.g + new_state.h
-    st.session_state.current_state = new_state
-    st.session_state.manual_log.append(f"✅ {name} -> {new_pos}")
+    child = next((c for c in children if c.action.startswith(name)), None)
+    if child is not None:
+        st.session_state.current_state = child
+        st.session_state.manual_log.append(f"✅ {child.action}")
+    else:
+        rej = next((r for r in rejected if r.action == name), None)
+        reason = rej.reason if rej else "outside grid"
+        st.session_state.manual_log.append(f"❌ {name}: {reason}")
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

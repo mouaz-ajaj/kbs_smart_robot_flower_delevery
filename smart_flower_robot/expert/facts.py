@@ -84,3 +84,38 @@ class ActionFact(Fact):
     """A proposed action for logging / display purposes."""
     action_type = Field(str, mandatory=True)
     description = Field(str, mandatory=True)
+
+
+class MoveCandidateFact(Fact):
+    """A candidate move direction."""
+    parent_id = Field(int, mandatory=True)
+    direction = Field(str, mandatory=True)
+    new_x = Field(int, mandatory=True)
+    new_y = Field(int, mandatory=True)
+
+
+class LoadCandidateFact(Fact):
+    """A candidate load batch."""
+    parent_id = Field(int, mandatory=True)
+    batch = Field(dict, mandatory=True)
+
+
+class ValidLoadFact(Fact):
+    """A validated load batch."""
+    parent_id = Field(int, mandatory=True)
+    batch = Field(dict, mandatory=True)
+
+
+class UnloadCandidateFact(Fact):
+    """A candidate unload set of colors."""
+    parent_id = Field(int, mandatory=True)
+    pavilion_id = Field(str, mandatory=True)
+    colors_to_unload = Field(tuple, mandatory=True)
+
+
+class ValidUnloadFact(Fact):
+    """A validated unload set of colors."""
+    parent_id = Field(int, mandatory=True)
+    pavilion_id = Field(str, mandatory=True)
+    colors_to_unload = Field(tuple, mandatory=True)
+

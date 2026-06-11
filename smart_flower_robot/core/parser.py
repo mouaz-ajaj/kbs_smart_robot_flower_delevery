@@ -1,16 +1,3 @@
-"""
-core/parser.py
-==============
-Reads and validates the JSON problem file, then converts it into a Problem
-object (and the initial State).
-
-Responsibilities:
-    1. Read JSON from disk.
-    2. Verify all required fields exist and have the correct types.
-    3. Validate that every pavilion's color needs match the flower definition.
-    4. Compute max_load automatically (largest single-pavilion total need).
-    5. Build the initial State (robot at start, empty load, full remaining needs).
-"""
 
 from __future__ import annotations
 
@@ -21,21 +8,10 @@ from typing import Dict, List, Tuple
 from core.models import Action, Pavilion, Position, Problem, State
 
 
-# ── Required top-level keys ──────────────────────────────────────────────────
 _REQUIRED_KEYS = {"grid", "warehouse", "robot", "flowers", "pavilions"}
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Public API
-# ═══════════════════════════════════════════════════════════════════════════════
-
 def load_json(filepath: str | Path) -> dict:
-    """Read a JSON file and return the raw dict.
-
-    Raises:
-        FileNotFoundError : if the file does not exist
-        json.JSONDecodeError : if the file is not valid JSON
-    """
     filepath = Path(filepath)
     if not filepath.exists():
         raise FileNotFoundError(f"JSON file not found: {filepath}")
@@ -44,11 +20,6 @@ def load_json(filepath: str | Path) -> dict:
 
 
 def parse_problem(data: dict) -> Problem:
-    """Convert a raw JSON dict into a validated Problem object.
-
-    Raises:
-        ValueError : for missing / invalid fields or inconsistent data
-    """
     _validate_top_level(data)
 
     # ── Grid ──────────────────────────────────────────────────────────
@@ -121,7 +92,6 @@ def parse_problem(data: dict) -> Problem:
     if len(pavilions) == 0:
         raise ValueError("At least one pavilion must be defined.")
 
-    # ── max_load = largest single-pavilion total need ────────────────
     max_load = max(sum(p.needs.values()) for p in pavilions)
 
     return Problem(
@@ -136,7 +106,6 @@ def parse_problem(data: dict) -> Problem:
 
 
 def build_initial_state(problem: Problem) -> State:
-    """Create the initial search state from a parsed Problem."""
     remaining: Dict[Tuple[str, str], int] = {}
     for pav in problem.pavilions:
         for color, qty in pav.needs.items():
@@ -154,11 +123,6 @@ def build_initial_state(problem: Problem) -> State:
         parent_id=-1,
         action="Initial State",
     )
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Internal helpers
-# ═══════════════════════════════════════════════════════════════════════════════
 
 def _validate_top_level(data: dict) -> None:
     missing = _REQUIRED_KEYS - set(data.keys())

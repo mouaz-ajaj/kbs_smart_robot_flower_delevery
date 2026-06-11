@@ -60,6 +60,26 @@ from expert.facts import (
 )
 
 
+from core.actions import StateCounter
+from core.models import Position, Pavilion, Action, Problem, RejectedRecord, State
+from core.heuristics import heuristic as compute_heuristic
+from expert.facts import (
+    CurrentStateFact,
+    GeneratedStateFact,
+    GoalFact,
+    GridFact,
+    PavilionFact,
+    RobotFact,
+    ViolationFact,
+    WarehouseFact,
+    MoveCandidateFact,
+    LoadCandidateFact,
+    ValidLoadFact,
+    UnloadCandidateFact,
+    ValidUnloadFact,
+)
+
+
 class FlowerRobotEngine(KnowledgeEngine):
     """Rule-based engine for expanding a single state.
 
@@ -85,6 +105,152 @@ class FlowerRobotEngine(KnowledgeEngine):
         self.rejected_actions: List[RejectedRecord] = []
         self.goal_reached: bool = False
         self.log_lines: List[str] = []
+
+    # ══════════════════════════════════════════════════════════════════
+    #  Helpers
+    # ══════════════════════════════════════════════════════════════════
+
+    def _make_child(
+        self,
+        parent: State,
+        robot_pos: Position,
+        load: Dict[Tuple[str, str], int],
+        remaining_needs: Dict[Tuple[str, str], int],
+        action_name: str,
+        action_desc: str,
+        problem: Problem,
+        counter: StateCounter,
+    ) -> State:
+        new_id = counter.next()
+        g = parent.g + 1
+        h = compute_heuristic(
+            robot_pos, load, remaining_needs, problem
+        )
+        act = Action(name=action_name, description=action_desc)
+        return State(
+            id=new_id,
+            robot_pos=robot_pos,
+            load=load,
+            remaining_needs=remaining_needs,
+            g=g,
+            h=h,
+            f=g + h,
+            path=parent.path + [act],
+            parent_id=parent.id,
+            action=action_desc,
+        )
+
+    def _format_load_batch(self, batch: Dict[Tuple[str, str], int]) -> str:
+        items = sorted(batch.items())
+        return "[" + ", ".join(f"{ft} {c} x{q}" for (ft, c), q in items) + "]"
+
+    def _positive_subset_sums(self, values: List[int]) -> List[int]:
+        if not values:
+            return []
+        sums = set()
+        import itertools
+        for r in range(1, len(values) + 1):
+            for subset in itertools.combinations(values, r):
+                s = sum(subset)
+                if s > 0:
+                    sums.add(s)
+        return sorted(list(sums))
+
+    def _deduplicate_batches(self, batches: List[Dict[Tuple[str, str], int]]) -> List[Dict[Tuple[str, str], int]]:
+        seen = set()
+        unique = []
+        for b in batches:
+            sig = frozenset(b.items())
+            if sig not in seen:
+                seen.add(sig)
+                unique.append(b)
+        return unique
+
+    def _find_pavilion_at(self, pos: Position, problem: Problem) -> Pavilion | None:
+        for pav in problem.pavilions:
+            if pav.position == pos:
+                return pav
+        return None
+
+    def _generate_same_type_loads(self, state: State, problem: Problem) -> List[Dict[Tuple[str, str], int]]:
+        results: List[Dict[Tuple[str, str], int]] = []
+        current_total = state.load_total()
+        capacity = problem.max_load - current_total
+        if capacity <= 0:
+            return results
+
+        import itertools
+        for flower_type in problem.flowers:
+            color_to_needs: Dict[str, List[int]] = {}
+            for pav in problem.pavilions:
+                if pav.type == flower_type:
+                    for color in pav.needs:
+                        rem = state.remaining_needs.get((pav.id, color), 0)
+                        if rem > 0:
+                            color_to_needs.setdefault(color, []).append(rem)
+                            
+            if not color_to_needs:
+                continue
+                
+            color_possible_quantities: Dict[str, List[int]] = {}
+            for color, needs_list in color_to_needs.items():
+                color_possible_quantities[color] = self._positive_subset_sums(needs_list)
+                
+            colors = list(color_possible_quantities.keys())
+            
+            for r in range(1, len(colors) + 1):
+                for color_combo in itertools.combinations(colors, r):
+                    quantities_lists = [color_possible_quantities[c] for c in color_combo]
+                    for qty_combo in itertools.product(*quantities_lists):
+                        total = sum(qty_combo)
+                        if total > 0 and total <= capacity:
+                            batch = {}
+                            for c, q in zip(color_combo, qty_combo):
+                                batch[(flower_type, c)] = q
+                            results.append(batch)
+
+        return self._deduplicate_batches(results)
+
+    def _generate_same_color_loads(self, state: State, problem: Problem) -> List[Dict[Tuple[str, str], int]]:
+        results: List[Dict[Tuple[str, str], int]] = []
+        current_total = state.load_total()
+        capacity = problem.max_load - current_total
+        if capacity <= 0:
+            return results
+
+        all_colors = set()
+        for pav in problem.pavilions:
+            all_colors.update(pav.needs)
+            
+        import itertools
+        for color in all_colors:
+            type_to_needs: Dict[str, List[int]] = {}
+            for pav in problem.pavilions:
+                rem = state.remaining_needs.get((pav.id, color), 0)
+                if rem > 0:
+                    type_to_needs.setdefault(pav.type, []).append(rem)
+                    
+            if len(type_to_needs) < 2:
+                continue
+                
+            type_possible_quantities: Dict[str, List[int]] = {}
+            for ft, needs_list in type_to_needs.items():
+                type_possible_quantities[ft] = self._positive_subset_sums(needs_list)
+                
+            types = list(type_possible_quantities.keys())
+            
+            for r in range(2, len(types) + 1):
+                for type_combo in itertools.combinations(types, r):
+                    quantities_lists = [type_possible_quantities[ft] for ft in type_combo]
+                    for qty_combo in itertools.product(*quantities_lists):
+                        total = sum(qty_combo)
+                        if total > 0 and total <= capacity:
+                            batch = {}
+                            for ft, q in zip(type_combo, qty_combo):
+                                batch[(ft, color)] = q
+                            results.append(batch)
+
+        return self._deduplicate_batches(results)
 
     # ──────────────────────────────────────────────────────────────────
     #  Public API
@@ -128,6 +294,48 @@ class FlowerRobotEngine(KnowledgeEngine):
             ))
         self.declare(CurrentStateFact(state_id=state.id))
 
+        # Declare Move candidates:
+        self.declare(MoveCandidateFact(parent_id=state.id, direction="Move Right", new_x=state.robot_pos.x + 1, new_y=state.robot_pos.y))
+        self.declare(MoveCandidateFact(parent_id=state.id, direction="Move Left", new_x=state.robot_pos.x - 1, new_y=state.robot_pos.y))
+        self.declare(MoveCandidateFact(parent_id=state.id, direction="Move Up", new_x=state.robot_pos.x, new_y=state.robot_pos.y - 1))
+        self.declare(MoveCandidateFact(parent_id=state.id, direction="Move Down", new_x=state.robot_pos.x, new_y=state.robot_pos.y + 1))
+
+        # Declare Load candidates (only at warehouse):
+        if state.robot_pos == problem.warehouse:
+            batches_raw = self._generate_same_type_loads(state, problem)
+            batches_raw.extend(self._generate_same_color_loads(state, problem))
+            batches = self._deduplicate_batches(batches_raw)
+            for batch in batches:
+                self.declare(LoadCandidateFact(parent_id=state.id, batch=batch))
+
+        # Declare Unload candidates (only at pavilion):
+        pavilion = self._find_pavilion_at(state.robot_pos, problem)
+        if pavilion is not None:
+            eligible_colors = []
+            for color in pavilion.needs:
+                remaining = state.remaining_needs.get((pavilion.id, color), 0)
+                if remaining > 0:
+                    carried = state.load.get((pavilion.type, color), 0)
+                    if carried >= remaining:
+                        eligible_colors.append(color)
+
+            if eligible_colors:
+                self.declare(UnloadCandidateFact(parent_id=state.id, pavilion_id=pavilion.id, colors_to_unload=tuple(eligible_colors)))
+                if len(eligible_colors) > 1:
+                    for single_color in eligible_colors:
+                        self.declare(UnloadCandidateFact(parent_id=state.id, pavilion_id=pavilion.id, colors_to_unload=(single_color,)))
+            else:
+                for (ft, c), qty in state.load.items():
+                    if ft == pavilion.type and c in pavilion.needs:
+                        rem = state.remaining_needs.get((pavilion.id, c), 0)
+                        if rem > 0 and qty < rem:
+                            action_desc = f"Unload {ft} {c} at {pavilion.id}"
+                            self.declare(ViolationFact(
+                                parent_id=state.id,
+                                action=action_desc,
+                                reason=f"Carried {qty} < needed {rem} (partial unload forbidden).",
+                            ))
+
         self.run()
 
         return (
@@ -142,198 +350,151 @@ class FlowerRobotEngine(KnowledgeEngine):
 
     @Rule(
         CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.rx, y=MATCH.ry),
-        GridFact(width=MATCH.w),
-        TEST(lambda rx, w: rx < w),
+        MoveCandidateFact(parent_id=MATCH.sid, direction=MATCH.dir, new_x=MATCH.nx, new_y=MATCH.ny),
+        GridFact(width=MATCH.w, height=MATCH.h),
+        TEST(lambda nx, ny, w, h: 1 <= nx <= w and 1 <= ny <= h),
     )
-    def move_right_rule(self, sid, rx, ry, w):
-        """RULE: Move Right – robot x < grid width."""
-        child, rej = generate_move_right(
-            self.current_state, self.problem, self.counter
+    def move_valid_rule(self, sid, dir, nx, ny, w, h):
+        new_pos = Position(nx, ny)
+        action_desc = f"{dir} -> robot at {new_pos}"
+        child = self._make_child(
+            self.current_state,
+            new_pos,
+            dict(self.current_state.load),
+            dict(self.current_state.remaining_needs),
+            dir,
+            action_desc,
+            self.problem,
+            self.counter,
         )
-        if child:
-            self.generated_children.append(child)
-            self.declare(GeneratedStateFact(state_id=child.id, action="Move Right"))
-        if rej:
-            self.rejected_actions.append(rej)
+        self.generated_children.append(child)
+        self.declare(GeneratedStateFact(state_id=child.id, action=action_desc))
 
     @Rule(
         CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.rx, y=MATCH.ry),
-        GridFact(width=MATCH.w),
-        TEST(lambda rx, w: rx >= w),
+        MoveCandidateFact(parent_id=MATCH.sid, direction=MATCH.dir, new_x=MATCH.nx, new_y=MATCH.ny),
+        GridFact(width=MATCH.w, height=MATCH.h),
+        TEST(lambda nx, ny, w, h: not (1 <= nx <= w and 1 <= ny <= h)),
     )
-    def violation_outside_grid_right(self, sid, rx, ry, w):
-        """RULE: Violation – Move Right would exit the grid."""
-        rej = RejectedRecord(sid, "Move Right", f"Robot at x={rx}, grid width={w}. Would exit grid.")
-        self.rejected_actions.append(rej)
+    def move_invalid_rule(self, sid, dir, nx, ny, w, h):
+        reason = f"Position ({nx},{ny}) is outside the grid."
         self.declare(ViolationFact(
             parent_id=sid,
-            action="Move Right",
-            reason=f"Position ({rx+1},{ry}) is outside the grid.",
-        ))
-
-    @Rule(
-        CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.rx, y=MATCH.ry),
-        TEST(lambda rx: rx > 1),
-    )
-    def move_left_rule(self, sid, rx, ry):
-        """RULE: Move Left – robot x > 1."""
-        child, rej = generate_move_left(
-            self.current_state, self.problem, self.counter
-        )
-        if child:
-            self.generated_children.append(child)
-            self.declare(GeneratedStateFact(state_id=child.id, action="Move Left"))
-        if rej:
-            self.rejected_actions.append(rej)
-
-    @Rule(
-        CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.rx, y=MATCH.ry),
-        TEST(lambda rx: rx <= 1),
-    )
-    def violation_outside_grid_left(self, sid, rx, ry):
-        """RULE: Violation – Move Left would exit the grid."""
-        rej = RejectedRecord(sid, "Move Left", f"Robot at x={rx}. Would exit grid.")
-        self.rejected_actions.append(rej)
-        self.declare(ViolationFact(
-            parent_id=sid,
-            action="Move Left",
-            reason=f"Position ({rx-1},{ry}) is outside the grid.",
-        ))
-
-    @Rule(
-        CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.rx, y=MATCH.ry),
-        TEST(lambda ry: ry > 1),
-    )
-    def move_up_rule(self, sid, rx, ry):
-        """RULE: Move Up – robot y > 1."""
-        child, rej = generate_move_up(
-            self.current_state, self.problem, self.counter
-        )
-        if child:
-            self.generated_children.append(child)
-            self.declare(GeneratedStateFact(state_id=child.id, action="Move Up"))
-        if rej:
-            self.rejected_actions.append(rej)
-
-    @Rule(
-        CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.rx, y=MATCH.ry),
-        TEST(lambda ry: ry <= 1),
-    )
-    def violation_outside_grid_up(self, sid, rx, ry):
-        """RULE: Violation – Move Up would exit the grid."""
-        rej = RejectedRecord(sid, "Move Up", f"Robot at y={ry}. Would exit grid.")
-        self.rejected_actions.append(rej)
-        self.declare(ViolationFact(
-            parent_id=sid,
-            action="Move Up",
-            reason=f"Position ({rx},{ry-1}) is outside the grid.",
-        ))
-
-    @Rule(
-        CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.rx, y=MATCH.ry),
-        GridFact(height=MATCH.h),
-        TEST(lambda ry, h: ry < h),
-    )
-    def move_down_rule(self, sid, rx, ry, h):
-        """RULE: Move Down – robot y < grid height."""
-        child, rej = generate_move_down(
-            self.current_state, self.problem, self.counter
-        )
-        if child:
-            self.generated_children.append(child)
-            self.declare(GeneratedStateFact(state_id=child.id, action="Move Down"))
-        if rej:
-            self.rejected_actions.append(rej)
-
-    @Rule(
-        CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.rx, y=MATCH.ry),
-        GridFact(height=MATCH.h),
-        TEST(lambda ry, h: ry >= h),
-    )
-    def violation_outside_grid_down(self, sid, rx, ry, h):
-        """RULE: Violation – Move Down would exit the grid."""
-        rej = RejectedRecord(sid, "Move Down", f"Robot at y={ry}, grid height={h}. Would exit grid.")
-        self.rejected_actions.append(rej)
-        self.declare(ViolationFact(
-            parent_id=sid,
-            action="Move Down",
-            reason=f"Position ({rx},{ry+1}) is outside the grid.",
+            action=dir,
+            reason=reason,
         ))
 
     # ══════════════════════════════════════════════════════════════════
-    #  LOAD RULE
+    #  LOAD RULES
     # ══════════════════════════════════════════════════════════════════
 
     @Rule(
         CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.pos_x, y=MATCH.pos_y),
-        WarehouseFact(x=MATCH.pos_x, y=MATCH.pos_y),
+        LoadCandidateFact(parent_id=MATCH.sid, batch=MATCH.batch),
     )
-    def load_rule(self, sid, pos_x, pos_y):
-        """RULE: Load – robot is at the warehouse.
+    def validate_load_candidate(self, sid, batch):
+        reasons = []
+        for qty in batch.values():
+            if qty <= 0:
+                reasons.append("Load quantities must be positive.")
+                break
+        
+        current_total = self.current_state.load_total()
+        batch_total = sum(batch.values())
+        if (current_total + batch_total) > self.problem.max_load:
+            reasons.append("Load would exceed max_load capacity.")
+            
+        combined = dict(self.current_state.load)
+        for k, v in batch.items():
+            combined[k] = combined.get(k, 0) + v
+            
+        if len(combined) > 1:
+            types = set(ft for ft, _ in combined.keys())
+            colors = set(c for _, c in combined.keys())
+            if not (len(colors) == 1 or len(types) == 1):
+                reasons.append("Total robot load violates pattern constraint (must be same-color or same-type).")
+                
+        for (ft, color), qty in batch.items():
+            found = False
+            for pav in self.problem.pavilions:
+                if pav.type == ft:
+                    rem = self.current_state.remaining_needs.get((pav.id, color), 0)
+                    if rem > 0:
+                        found = True
+                        break
+            if not found:
+                reasons.append("Load contains bouquets not needed by any pavilion.")
+                break
+                
+        action_desc = f"Load {self._format_load_batch(batch)}"
+        if reasons:
+            self.declare(ViolationFact(parent_id=sid, action=action_desc, reason=reasons[0]))
+        else:
+            self.declare(ValidLoadFact(parent_id=sid, batch=batch))
 
-        Uses MATCH variable joining (pos_x, pos_y appear in both
-        RobotFact and WarehouseFact) to enforce the location constraint
-        entirely through Experta pattern matching.
-
-        Delegates the actual load-option generation to
-        ``core.actions.generate_loads``, which enforces same-color /
-        same-type constraints, max_load, and need-based filtering.
-        """
-        children, rejected = generate_loads(
-            self.current_state, self.problem, self.counter
+    @Rule(
+        CurrentStateFact(state_id=MATCH.sid),
+        ValidLoadFact(parent_id=MATCH.sid, batch=MATCH.batch),
+    )
+    def execute_valid_load(self, sid, batch):
+        action_desc = f"Load {self._format_load_batch(batch)}"
+        new_load = dict(self.current_state.load)
+        for key, qty in batch.items():
+            new_load[key] = new_load.get(key, 0) + qty
+        child = self._make_child(
+            self.current_state,
+            self.current_state.robot_pos,
+            new_load,
+            dict(self.current_state.remaining_needs),
+            "Load",
+            action_desc,
+            self.problem,
+            self.counter,
         )
-        for child in children:
-            self.generated_children.append(child)
-            self.declare(GeneratedStateFact(state_id=child.id, action=child.action))
-        for rej in rejected:
-            self.rejected_actions.append(rej)
-            self.declare(ViolationFact(
-                parent_id=rej.parent_id,
-                action=rej.action,
-                reason=rej.reason,
-            ))
+        self.generated_children.append(child)
+        self.declare(GeneratedStateFact(state_id=child.id, action=action_desc))
 
     # ══════════════════════════════════════════════════════════════════
-    #  UNLOAD RULE
+    #  UNLOAD RULES
     # ══════════════════════════════════════════════════════════════════
 
     @Rule(
         CurrentStateFact(state_id=MATCH.sid),
-        RobotFact(x=MATCH.pos_x, y=MATCH.pos_y, has_load=True),
-        PavilionFact(pid=MATCH.pid, x=MATCH.pos_x, y=MATCH.pos_y),
+        UnloadCandidateFact(parent_id=MATCH.sid, pavilion_id=MATCH.pid, colors_to_unload=MATCH.colors),
     )
-    def unload_rule(self, sid, pos_x, pos_y, pid):
-        """RULE: Unload – robot is at a pavilion AND is carrying bouquets.
+    def validate_unload_candidate(self, sid, pid, colors):
+        self.declare(ValidUnloadFact(parent_id=sid, pavilion_id=pid, colors_to_unload=colors))
 
-        Pattern matching ensures:
-            - Robot has a non-empty load  (has_load=True)
-            - Robot is at a pavilion  (pos_x/pos_y join)
+    @Rule(
+        CurrentStateFact(state_id=MATCH.sid),
+        ValidUnloadFact(parent_id=MATCH.sid, pavilion_id=MATCH.pid, colors_to_unload=MATCH.colors),
+    )
+    def execute_valid_unload(self, sid, pid, colors):
+        pavilion = next(p for p in self.problem.pavilions if p.id == pid)
+        new_load = dict(self.current_state.load)
+        new_needs = dict(self.current_state.remaining_needs)
+        unload_desc_parts = []
+        for c in colors:
+            rem = new_needs[(pid, c)]
+            new_load[(pavilion.type, c)] -= rem
+            if new_load[(pavilion.type, c)] == 0:
+                del new_load[(pavilion.type, c)]
+            del new_needs[(pid, c)]
+            unload_desc_parts.append(f"{pavilion.type} {c} x{rem}")
 
-        Delegates to ``core.actions.generate_unloads`` for constraint
-        checking (type match, minimum quantity, no partial unload).
-        """
-        children, rejected = generate_unloads(
-            self.current_state, self.problem, self.counter
+        action_desc = f"Unload at {pid} [{', '.join(unload_desc_parts)}]"
+        child = self._make_child(
+            self.current_state,
+            self.current_state.robot_pos,
+            new_load,
+            new_needs,
+            "Unload",
+            action_desc,
+            self.problem,
+            self.counter,
         )
-        for child in children:
-            self.generated_children.append(child)
-            self.declare(GeneratedStateFact(state_id=child.id, action=child.action))
-        for rej in rejected:
-            self.rejected_actions.append(rej)
-            self.declare(ViolationFact(
-                parent_id=rej.parent_id,
-                action=rej.action,
-                reason=rej.reason,
-            ))
+        self.generated_children.append(child)
+        self.declare(GeneratedStateFact(state_id=child.id, action=action_desc))
 
     # ══════════════════════════════════════════════════════════════════
     #  GOAL DETECTION RULE
@@ -344,34 +505,40 @@ class FlowerRobotEngine(KnowledgeEngine):
         RobotFact(has_load=False),
     )
     def detect_goal_rule(self, sid):
-        """RULE: Detect Goal – robot has no load.
-
-        This rule fires when the robot is empty.  It then checks
-        whether ALL pavilion needs are also satisfied (remaining == 0).
-        If so, it asserts a GoalFact.
-        """
-        if is_goal_state(self.current_state):
+        all_satisfied = True
+        for qty in self.current_state.remaining_needs.values():
+            if qty > 0:
+                all_satisfied = False
+                break
+        if all_satisfied:
             self.goal_reached = True
             self.declare(GoalFact(state_id=sid))
 
     # ══════════════════════════════════════════════════════════════════
-    #  LOGGING RULES
+    #  VIOLATION & LOGGING RULES
     # ══════════════════════════════════════════════════════════════════
+
+    @Rule(
+        CurrentStateFact(state_id=MATCH.sid),
+        ViolationFact(parent_id=MATCH.sid, action=MATCH.act, reason=MATCH.reason),
+    )
+    def handle_violation(self, sid, act, reason):
+        rej = RejectedRecord(sid, act, reason)
+        if rej not in self.rejected_actions:
+            self.rejected_actions.append(rej)
 
     @Rule(GeneratedStateFact(state_id=MATCH.sid, action=MATCH.act))
     def print_generated_state_rule(self, sid, act):
-        """RULE: Log generated state – fires for every successor."""
         self.log_lines.append(f"  [Generated] State {sid} via {act}")
 
     @Rule(ViolationFact(parent_id=MATCH.pid, action=MATCH.act, reason=MATCH.reason))
     def print_violation_rule(self, pid, act, reason):
-        """RULE: Log violation – fires for every rejected action."""
         self.log_lines.append(f"  [Violation] Parent {pid} | {act} | {reason}")
 
     @Rule(GoalFact(state_id=MATCH.sid))
     def print_goal_rule(self, sid):
-        """RULE: Log goal – fires when the goal is detected."""
         self.log_lines.append(f"  [GOAL] State {sid} is the goal state!")
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

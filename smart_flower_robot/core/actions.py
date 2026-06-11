@@ -88,382 +88,109 @@ def _make_child(
 def generate_move_right(
     state: State, problem: Problem, counter: StateCounter
 ) -> Tuple[State | None, RejectedRecord | None]:
-    new_pos = Position(state.robot_pos.x + 1, state.robot_pos.y)
-    reason = validate_move(new_pos, problem)
-    if reason:
-        return None, RejectedRecord(state.id, "Move Right", reason)
-    desc = f"Move Right -> robot at {new_pos}"
-    child = _make_child(
-        state, new_pos, dict(state.load), dict(state.remaining_needs),
-        "Move Right", desc, problem, counter,
-    )
-    return child, None
+    """[DEPRECATED/WRAPPER] Generate Move Right using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
+    child = next((c for c in children if c.action.startswith("Move Right")), None)
+    rej = next((r for r in rejected if r.action == "Move Right"), None)
+    return child, rej
 
 
 def generate_move_left(
     state: State, problem: Problem, counter: StateCounter
 ) -> Tuple[State | None, RejectedRecord | None]:
-    new_pos = Position(state.robot_pos.x - 1, state.robot_pos.y)
-    reason = validate_move(new_pos, problem)
-    if reason:
-        return None, RejectedRecord(state.id, "Move Left", reason)
-    desc = f"Move Left -> robot at {new_pos}"
-    child = _make_child(
-        state, new_pos, dict(state.load), dict(state.remaining_needs),
-        "Move Left", desc, problem, counter,
-    )
-    return child, None
+    """[DEPRECATED/WRAPPER] Generate Move Left using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
+    child = next((c for c in children if c.action.startswith("Move Left")), None)
+    rej = next((r for r in rejected if r.action == "Move Left"), None)
+    return child, rej
 
 
 def generate_move_up(
     state: State, problem: Problem, counter: StateCounter
 ) -> Tuple[State | None, RejectedRecord | None]:
-    new_pos = Position(state.robot_pos.x, state.robot_pos.y - 1)
-    reason = validate_move(new_pos, problem)
-    if reason:
-        return None, RejectedRecord(state.id, "Move Up", reason)
-    desc = f"Move Up -> robot at {new_pos}"
-    child = _make_child(
-        state, new_pos, dict(state.load), dict(state.remaining_needs),
-        "Move Up", desc, problem, counter,
-    )
-    return child, None
+    """[DEPRECATED/WRAPPER] Generate Move Up using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
+    child = next((c for c in children if c.action.startswith("Move Up")), None)
+    rej = next((r for r in rejected if r.action == "Move Up"), None)
+    return child, rej
 
 
 def generate_move_down(
     state: State, problem: Problem, counter: StateCounter
 ) -> Tuple[State | None, RejectedRecord | None]:
-    new_pos = Position(state.robot_pos.x, state.robot_pos.y + 1)
-    reason = validate_move(new_pos, problem)
-    if reason:
-        return None, RejectedRecord(state.id, "Move Down", reason)
-    desc = f"Move Down -> robot at {new_pos}"
-    child = _make_child(
-        state, new_pos, dict(state.load), dict(state.remaining_needs),
-        "Move Down", desc, problem, counter,
-    )
-    return child, None
+    """[DEPRECATED/WRAPPER] Generate Move Down using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
+    child = next((c for c in children if c.action.startswith("Move Down")), None)
+    rej = next((r for r in rejected if r.action == "Move Down"), None)
+    return child, rej
 
 
 def generate_moves(
     state: State, problem: Problem, counter: StateCounter
 ) -> Tuple[List[State], List[RejectedRecord]]:
-    """Generate all valid move actions from the current state."""
-    children: List[State] = []
-    rejected: List[RejectedRecord] = []
-
-    for gen_fn in (
-        generate_move_right,
-        generate_move_left,
-        generate_move_up,
-        generate_move_down,
-    ):
-        child, rej = gen_fn(state, problem, counter)
-        if child is not None:
-            children.append(child)
-        if rej is not None:
-            rejected.append(rej)
-
-    return children, rejected
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Load generators
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def _format_load_batch(batch: Dict[Tuple[str, str], int]) -> str:
-    items = sorted(batch.items())
-    return "[" + ", ".join(f"{ft} {c} x{q}" for (ft, c), q in items) + "]"
-
-
-def _positive_subset_sums(values: List[int]) -> List[int]:
-    """Return all unique positive subset sums from a list of values."""
-    if not values:
-        return []
-    sums = set()
-    for r in range(1, len(values) + 1):
-        for subset in itertools.combinations(values, r):
-            s = sum(subset)
-            if s > 0:
-                sums.add(s)
-    return sorted(list(sums))
-
-
-def _deduplicate_batches(batches: List[Dict[Tuple[str, str], int]]) -> List[Dict[Tuple[str, str], int]]:
-    """Remove duplicates from a list of batches."""
-    seen = set()
-    unique = []
-    for b in batches:
-        sig = frozenset(b.items())
-        if sig not in seen:
-            seen.add(sig)
-            unique.append(b)
-    return unique
+    """[DEPRECATED/WRAPPER] Generate all valid move actions using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
+    move_children = [c for c in children if c.action.startswith("Move")]
+    move_rejected = [r for r in rejected if r.action.startswith("Move")]
+    return move_children, move_rejected
 
 
 def generate_same_type_loads(
     state: State, problem: Problem
 ) -> List[Dict[Tuple[str, str], int]]:
-    """Option B -- same flower type, different colors allowed."""
-    results: List[Dict[Tuple[str, str], int]] = []
-    current_total = state.load_total()
-    capacity = problem.max_load - current_total
-    if capacity <= 0:
-        return results
-
-    for flower_type in problem.flowers:
-        # Group remaining needs by color for this flower type
-        color_to_needs: Dict[str, List[int]] = {}
-        for pav in problem.pavilions:
-            if pav.type == flower_type:
-                for color in pav.needs:
-                    rem = state.remaining_needs.get((pav.id, color), 0)
-                    if rem > 0:
-                        color_to_needs.setdefault(color, []).append(rem)
-                        
-        if not color_to_needs:
-            continue
-            
-        # For each color, get all possible subset sums
-        color_possible_quantities: Dict[str, List[int]] = {}
-        for color, needs_list in color_to_needs.items():
-            color_possible_quantities[color] = _positive_subset_sums(needs_list)
-            
-        colors = list(color_possible_quantities.keys())
-        
-        # Generate combinations of colors (from size 1 to len(colors))
-        for r in range(1, len(colors) + 1):
-            for color_combo in itertools.combinations(colors, r):
-                # For this combination, pick one possible quantity per color using product
-                quantities_lists = [color_possible_quantities[c] for c in color_combo]
-                for qty_combo in itertools.product(*quantities_lists):
-                    total = sum(qty_combo)
-                    if total > 0 and total <= capacity:
-                        batch = {}
-                        for c, q in zip(color_combo, qty_combo):
-                            batch[(flower_type, c)] = q
-                        results.append(batch)
-
-    return _deduplicate_batches(results)
+    """[DEPRECATED/WRAPPER] Generate candidate loads of same type using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    return FlowerRobotEngine()._generate_same_type_loads(state, problem)
 
 
 def generate_same_color_loads(
     state: State, problem: Problem
 ) -> List[Dict[Tuple[str, str], int]]:
-    """Option A – same color, different flower types allowed."""
-    results: List[Dict[Tuple[str, str], int]] = []
-    current_total = state.load_total()
-    capacity = problem.max_load - current_total
-    if capacity <= 0:
-        return results
-
-    # Collect all possible colors
-    all_colors = set()
-    for pav in problem.pavilions:
-        all_colors.update(pav.needs)
-        
-    for color in all_colors:
-        # Group remaining needs by flower_type for this color
-        type_to_needs: Dict[str, List[int]] = {}
-        for pav in problem.pavilions:
-            rem = state.remaining_needs.get((pav.id, color), 0)
-            if rem > 0:
-                type_to_needs.setdefault(pav.type, []).append(rem)
-                
-        if len(type_to_needs) < 2:
-            continue
-            
-        # For each flower type, get all possible subset sums
-        type_possible_quantities: Dict[str, List[int]] = {}
-        for ft, needs_list in type_to_needs.items():
-            type_possible_quantities[ft] = _positive_subset_sums(needs_list)
-            
-        types = list(type_possible_quantities.keys())
-        
-        # Generate combinations of flower types (size >= 2)
-        for r in range(2, len(types) + 1):
-            for type_combo in itertools.combinations(types, r):
-                quantities_lists = [type_possible_quantities[ft] for ft in type_combo]
-                for qty_combo in itertools.product(*quantities_lists):
-                    total = sum(qty_combo)
-                    if total > 0 and total <= capacity:
-                        batch = {}
-                        for ft, q in zip(type_combo, qty_combo):
-                            batch[(ft, color)] = q
-                        results.append(batch)
-
-    return _deduplicate_batches(results)
+    """[DEPRECATED/WRAPPER] Generate candidate loads of same color using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    return FlowerRobotEngine()._generate_same_color_loads(state, problem)
 
 
 def generate_loads(
     state: State, problem: Problem, counter: StateCounter
 ) -> Tuple[List[State], List[RejectedRecord]]:
-    """Generate all valid load actions at the warehouse.
-
-    Returns (children, rejected).
-    """
-    children: List[State] = []
-    rejected: List[RejectedRecord] = []
-
-    if state.robot_pos != problem.warehouse:
-        return children, rejected
-
-    # Collect candidate batches
-    batches_raw = generate_same_type_loads(state, problem)
-    batches_raw.extend(generate_same_color_loads(state, problem))
-
-    # Deduplicate batches
-    batches = _deduplicate_batches(batches_raw)
-
-    # Convert valid batches into child states
-    for batch in batches:
-        reason = validate_load_batch(state, batch, problem)
-        if reason:
-            rejected.append(
-                RejectedRecord(state.id, f"Load {_format_load_batch(batch)}", reason)
-            )
-            continue
-
-        new_load = dict(state.load)
-        for key, qty in batch.items():
-            new_load[key] = new_load.get(key, 0) + qty
-
-        desc = f"Load {_format_load_batch(batch)}"
-        child = _make_child(
-            state,
-            state.robot_pos,
-            new_load,
-            dict(state.remaining_needs),
-            "Load",
-            desc,
-            problem,
-            counter,
-        )
-        children.append(child)
-
-    return children, rejected
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Unload generators
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def _find_pavilion_at(pos: Position, problem: Problem) -> Pavilion | None:
-    """Return the Pavilion at *pos*, or None."""
-    for pav in problem.pavilions:
-        if pav.position == pos:
-            return pav
-    return None
+    """[DEPRECATED/WRAPPER] Generate valid load actions using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
+    load_children = [c for c in children if c.action.startswith("Load")]
+    load_rejected = [r for r in rejected if r.action.startswith("Load")]
+    return load_children, load_rejected
 
 
 def generate_unloads(
     state: State, problem: Problem, counter: StateCounter
 ) -> Tuple[List[State], List[RejectedRecord]]:
-    """Generate valid unload actions at the current position.
+    """[DEPRECATED/WRAPPER] Generate valid unload actions using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
+    unload_children = [c for c in children if c.action.startswith("Unload")]
+    unload_rejected = [r for r in rejected if r.action.startswith("Unload")]
+    return unload_children, unload_rejected
 
-    Rules:
-        - Only at a pavilion.
-        - Only bouquets whose type matches the pavilion.
-        - A color is unloaded ONLY if carried qty ≥ remaining need (no partial).
-        - Multiple eligible colors can be unloaded together (cost = 1).
-        - Generates all non-empty subsets of eligible colors so A* can choose.
-    """
-    children: List[State] = []
-    rejected: List[RejectedRecord] = []
-
-    pavilion = _find_pavilion_at(state.robot_pos, problem)
-    if pavilion is None:
-        return children, rejected
-
-    # Find colors eligible for unloading
-    eligible_colors: List[str] = []
-    for color in pavilion.needs:
-        if can_unload_color_at_pavilion(state, pavilion, color):
-            eligible_colors.append(color)
-
-    if not eligible_colors:
-        # Check if there's carried stuff that can't be unloaded (for rejection logging)
-        for (ft, c), qty in state.load.items():
-            if ft == pavilion.type and c in pavilion.needs:
-                rem = state.remaining_needs.get((pavilion.id, c), 0)
-                if rem > 0 and qty < rem:
-                    rejected.append(
-                        RejectedRecord(
-                            state.id,
-                            f"Unload {ft} {c} at {pavilion.id}",
-                            f"Carried {qty} < needed {rem} (partial unload forbidden).",
-                        )
-                    )
-        return children, rejected
-
-    # Generate unload actions:
-    #   1. Unload ALL eligible colors at once (always best since cost=1)
-    #   2. Unload each individual color separately (for flexibility)
-    seen_sigs: set = set()
-
-    def _build_unload(colors_to_unload):
-        new_load = dict(state.load)
-        new_needs = dict(state.remaining_needs)
-        unload_desc_parts = []
-        for c in colors_to_unload:
-            rem = new_needs[(pavilion.id, c)]
-            new_load[(pavilion.type, c)] -= rem
-            if new_load[(pavilion.type, c)] == 0:
-                del new_load[(pavilion.type, c)]
-            del new_needs[(pavilion.id, c)]
-            unload_desc_parts.append(f"{pavilion.type} {c} x{rem}")
-
-        desc = (
-            f"Unload at {pavilion.id} "
-            f"[{', '.join(unload_desc_parts)}]"
-        )
-        child = _make_child(
-            state, state.robot_pos, new_load, new_needs,
-            "Unload", desc, problem, counter,
-        )
-        sig = child.signature()
-        if sig not in seen_sigs:
-            seen_sigs.add(sig)
-            children.append(child)
-
-    # Option 1: Unload ALL eligible colors at once
-    _build_unload(eligible_colors)
-
-    # Option 2: Each individual color separately (if >1 eligible)
-    if len(eligible_colors) > 1:
-        for single_color in eligible_colors:
-            _build_unload([single_color])
-
-    return children, rejected
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Top-level successor generator
-# ═══════════════════════════════════════════════════════════════════════════════
 
 def generate_successors(
     state: State, problem: Problem, counter: StateCounter
 ) -> Tuple[List[State], List[RejectedRecord]]:
-    """Generate *all* valid successor states (moves + loads + unloads).
+    """[DEPRECATED/WRAPPER] Generate all valid successor states using FlowerRobotEngine."""
+    from expert.engine import FlowerRobotEngine
+    engine = FlowerRobotEngine()
+    children, rejected, _ = engine.expand_state(state, problem, counter)
+    return children, rejected
 
-    Returns (children, rejected).
-    """
-    all_children: List[State] = []
-    all_rejected: List[RejectedRecord] = []
-
-    # Movements
-    ch, rj = generate_moves(state, problem, counter)
-    all_children.extend(ch)
-    all_rejected.extend(rj)
-
-    # Loads (only at warehouse)
-    ch, rj = generate_loads(state, problem, counter)
-    all_children.extend(ch)
-    all_rejected.extend(rj)
-
-    # Unloads (only at a pavilion)
-    ch, rj = generate_unloads(state, problem, counter)
-    all_children.extend(ch)
-    all_rejected.extend(rj)
-
-    return all_children, all_rejected
